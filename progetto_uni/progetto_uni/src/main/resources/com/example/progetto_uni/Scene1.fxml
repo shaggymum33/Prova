@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Polygon?>
+
+<AnchorPane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" scaleY="-1.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fx:id="img" disable="true" fitHeight="143.0" fitWidth="154.0" layoutY="3.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true" scaleY="-1.0">
+         <image>
+            <Image url="@../../../Player.png" />
+         </image>
+      </ImageView>
+      <Polygon fx:id="one" fill="#ff0400" layoutX="321.0" layoutY="139.0" points="-100.5999755859375, 39.999969482421875, 96.20001220703125, 39.999969482421875, -0.39996337890625, -22.20001220703125" stroke="BLACK" strokeType="INSIDE" />
+      <Polygon fx:id="second" fill="#ff0400" layoutX="847.0" layoutY="131.0" points="-100.5999755859375, 39.999969482421875, 96.20001220703125, 39.999969482421875, -0.39996337890625, -22.20001220703125" stroke="BLACK" strokeType="INSIDE" />
+      <Polygon fx:id="terzo" fill="#ff0400" layoutX="603.0" layoutY="295.0" points="-100.5999755859375, 39.999969482421875, 96.20001220703125, 39.999969482421875, -0.39996337890625, -22.20001220703125" stroke="BLACK" strokeType="INSIDE" />
+   </children>
+</AnchorPane>
