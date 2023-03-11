@@ -145,9 +145,9 @@ public class Player {
 
     public void fire () {
 
-        Bullet b = new Bullet(posX+10, posY+20, this.direction*2, 10);
-        gameWorld.bullets.add(b);
 
+        gameWorld.addBullet(posX+10, posY+20, this.direction*2, 10, true);
+        System.out.println(Runtime.getRuntime().freeMemory());
 
     }
 

@@ -2,14 +2,11 @@ package com.example.progetto_uni;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Polygon;
 
 import java.io.IOException;
 import java.net.URL;
@@ -42,7 +39,8 @@ public class ControllerScene1 implements Initializable {
     private final Image imageBullet= new Image("DALL·E 2023-03-03 12.27.27 - 8 bit bullet like cuphead.png");
     public Keyboard keyboard;
     private ModelLivello modelLivello1;
-    Group virtualRoot = new Group();
+    //Group virtualRoot = new Group();
+
 
 
     Timer mainTimer;
@@ -55,10 +53,13 @@ public class ControllerScene1 implements Initializable {
             modelLivello1.moveBullets();
             modelLivello1.player.cooldown();
             modelLivello1.enemy.move();
-            modelLivello1.enemy.fire(modelLivello1.player.getPosX(), modelLivello1.player.getPosY());
+            //modelLivello1.enemy.fire(modelLivello1.player.getPosX(), modelLivello1.player.getPosY());
             modelLivello1.enemy.cooldown();
             modelLivello1.bulletCollisionDetenction();
-            modelLivello1.player.aggiornaProperty();
+
+
+
+
 
 
         }
@@ -72,14 +73,11 @@ public class ControllerScene1 implements Initializable {
         this.modelLivello1=model;
         this.keyboard= new Keyboard(modelLivello1.player);
         mainTimer= new Timer();
-        img =new ImageView();
-        img.setImage(first);
-        pane= new AnchorPane(img);
 
     }
 
 
-    public void timerAnimations(){//il timer thread per l'animazione
+   /* public void timerAnimations(){//il timer thread per l'animazione
         Timer animazionePlayer = new Timer();
         animazionePlayer.schedule(new TimerTask() {
             public void run() {
@@ -103,16 +101,16 @@ public class ControllerScene1 implements Initializable {
                     //b.img.translateYProperty().bind(b.posYProperty());
                     System.out.println("stampa bullet");
 
-                }*/
+                }
             }
         },   1000,275);
-    }
+    }*/
 
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        mainTimer.schedule(task, 0, 2);
-        timerAnimations();
+        mainTimer.schedule(task, 0, 4);
+       // timerAnimations();
 
 
 
@@ -121,30 +119,14 @@ public class ControllerScene1 implements Initializable {
 
     public void start() throws IOException {
         Servizio servizio = new Servizio();
-        scene = servizio.creaScena("Scene1.fxml",
-                "C:\\Users\\samue\\Downloads\\progetto_uni\\progetto_uni\\video1.mp4"
-                ,"C:\\Users\\samue\\Downloads\\progetto_uni\\progetto_uni\\Audio1.mp3",this, modelLivello1);
+        scene = servizio.creaScena("Scene1.fxml","C:\\Users\\samue\\OneDrive\\Documents\\Prova\\progetto_uni\\progetto_uni\\video1.mp4","C:\\Users\\samue\\OneDrive\\Documents\\Prova\\progetto_uni\\progetto_uni\\Audio1.mp3",this, modelLivello1);
 
         scene.setOnKeyPressed(keyboard::keyPressed);
         scene.setOnKeyReleased(keyboard::keyReleased);
-        img.translateXProperty().bind(modelLivello1.player.posXProperty());
-        img.translateYProperty().bind(modelLivello1.player.posYProperty());
 
-
-        //modelLivello1.platforms.add(new Platform(one));
     }
 
-    public void controllaProiettili(){
-        for(Bullet b:modelLivello1.bullets){
-            if(!pane.getChildren().contains(b.img))
-                pane.getChildren().add(b.img);
-            if (!b.isAlive) {
-                b.img.setImage(null);
-                pane.getChildren().remove(b.img);
-            }
 
-        }
-    }
 
 
 
@@ -161,6 +143,7 @@ public class ControllerScene1 implements Initializable {
         else
             condizioneImmagine = false;
     }//quando si fa per esempio una transizione si disattiva la condizione immagine
+
 
     public void setModelLivello1(ModelLivello modelLivello1) {
         this.modelLivello1 = modelLivello1;

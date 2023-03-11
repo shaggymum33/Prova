@@ -40,8 +40,8 @@ public class Enemy {
 
     public void fire(int playerX , int playerY) {
         if (!cooldownOn) {
-            Bullet b = new Bullet(this.posX+10, this.posY+20, -2, 10);
-            gameWorld.Ebullets.add(b);
+
+            gameWorld.addEBullet(this.posX+10, this.posY+20, -2, 10, true);
             cooldownOn=true;
         }
     }

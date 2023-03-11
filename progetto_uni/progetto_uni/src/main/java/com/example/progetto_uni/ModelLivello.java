@@ -29,26 +29,27 @@ public class ModelLivello
             platforms.add(new Platform(1100, 350));
             this.player = new Player(this);
             this.enemy = new Enemy(1000, 100, this);
+            for(int i=0; i<25; i++)
+                bullets.add(new Bullet(0, 0, 0, 10, false));
+            for(int i=0; i<25; i++)
+                Ebullets.add(new Bullet(0, 0, 0, 10, false));
 
 
 
         }
 
-    public void collisionDetection() {// provare a rifare con eventi
+    public void collisionDetection() {
 
         onPlatform = false;
 
         for (Platform p : platforms) {
             player.aggiornaCollider();
             if (p.collider.intersects(player.collider) && (player.collider.getMinY() >= p.posY + 18)) {
-                // if (player.collider.getMinY() >= p.posY + 18)
-                // questa condizione da parecchi problemi
                 player.aggiornaYmin(p.posY + 19);
                 onPlatform = true;
             }
         }
         if (!onPlatform) {
-            // inCollider=false; // serve ancora
             player.aggiornaYmin(10);
         }
 
@@ -62,12 +63,15 @@ public class ModelLivello
            for (int i =0; i<bullets.size(); i++){
                 if(bullets.get(i).isAlive)
                    bullets.get(i).move();
-               else bullets.remove(i);
+
            }
-            for(Bullet b: Ebullets)
-                if(b.isAlive)
-                    b.move();
-               // else Ebullets.remove(b);
+            for (int i =0; i<Ebullets.size(); i++){
+                if(Ebullets.get(i).isAlive)
+
+                    Ebullets.get(i).move();
+
+
+            }
         }
 
 
@@ -77,8 +81,29 @@ public class ModelLivello
         for (Bullet b : Ebullets)
             player.collisionDetection(b);
     }
- public void addBullet(Bullet b){
-
+ public void addBullet(int posX, int posY, int direction, int damage, boolean isAlive){
+     for (int i =0; i<bullets.size(); i++){
+         if(!bullets.get(i).isAlive) {
+             bullets.get(i).posY=posY;
+            bullets.get(i).posX=posX;
+            bullets.get(i).isAlive=isAlive;
+             bullets.get(i).direction=direction*2;
+             bullets.get(i).damage=damage;
+         return;
+         }
+     }
  }
+    public void addEBullet(int posX, int posY, int direction, int damage, boolean isAlive){
+        for (int i =0; i<Ebullets.size(); i++){
+            if(!Ebullets.get(i).isAlive) {
+                Ebullets.get(i).posY=posY;
+                Ebullets.get(i).posX=posX;
+                Ebullets.get(i).isAlive=isAlive;
+                Ebullets.get(i).direction=direction*2;
+                Ebullets.get(i).damage=damage;
+                return;
+            }
+        }
 
+}
 }

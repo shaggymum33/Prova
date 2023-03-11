@@ -3,9 +3,8 @@ package com.example.progetto_uni;
 
 import javax.swing.*;
 import java.awt.*;
-
-
-
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class GameView extends JPanel {
@@ -28,13 +27,15 @@ public class GameView extends JPanel {
         //this.keyBoard= new MyKeyboard(player);
         //this.addKeyListener(keyBoard);
 
-        Timer t = new Timer(30, e -> {
+        Timer t = new Timer();
+        TimerTask task = new TimerTask() {
+            public void run() {
+               repaint();
 
 
-            repaint();
-        });
-
-        t.start();
+            }
+        };
+        t.schedule(task, 10, 30);
     }
 
     protected void paintComponent(Graphics g) {
