@@ -2,12 +2,13 @@ package com.example.progetto_uni;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.embed.swing.SwingNode;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,17 +17,8 @@ import java.util.TimerTask;
 
 
 public class ControllerScene1 implements Initializable {
-    //dove c'è scritto @FXML vuol dire che fa riferimento all'istanza della scena del file FXML
-   //@FXML
-    private ImageView img;
 
-    private AnchorPane pane;
-   /* @FXML
-    private Polygon one ;
-    @FXML
-    private Polygon second;
-    @FXML
-    private Polygon terzo;*/
+
     private Scene scene;
     private DoubleProperty cambioScena = new SimpleDoubleProperty(1);
     private boolean condizioneImmagine = true; //boolean che serve per l'animazione, se sto facendo uno spostamento diventa false
@@ -39,7 +31,7 @@ public class ControllerScene1 implements Initializable {
     private final Image imageBullet= new Image("DALL·E 2023-03-03 12.27.27 - 8 bit bullet like cuphead.png");
     public Keyboard keyboard;
     private ModelLivello modelLivello1;
-    //Group virtualRoot = new Group();
+
 
 
 
@@ -53,7 +45,7 @@ public class ControllerScene1 implements Initializable {
             modelLivello1.moveBullets();
             modelLivello1.player.cooldown();
             modelLivello1.enemy.move();
-            //modelLivello1.enemy.fire(modelLivello1.player.getPosX(), modelLivello1.player.getPosY());
+            modelLivello1.enemy.fire(modelLivello1.player.getPosX(), modelLivello1.player.getPosY());
             modelLivello1.enemy.cooldown();
             modelLivello1.bulletCollisionDetenction();
 
@@ -109,7 +101,8 @@ public class ControllerScene1 implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        mainTimer.schedule(task, 0, 4);
+
+       // mainTimer.schedule(task, 0, 4);
        // timerAnimations();
 
 
@@ -118,11 +111,17 @@ public class ControllerScene1 implements Initializable {
 
 
     public void start() throws IOException {
-        Servizio servizio = new Servizio();
-        scene = servizio.creaScena("Scene1.fxml","C:\\Users\\samue\\OneDrive\\Documents\\Prova\\progetto_uni\\progetto_uni\\video1.mp4","C:\\Users\\samue\\OneDrive\\Documents\\Prova\\progetto_uni\\progetto_uni\\Audio1.mp3",this, modelLivello1);
-
+        //Servizio servizio = new Servizio();
+        //scene = servizio.creaScena("Scene1.fxml","C:\\Users\\samue\\OneDrive\\Documents\\Prova\\progetto_uni\\progetto_uni\\video1.mp4","C:\\Users\\samue\\OneDrive\\Documents\\Prova\\progetto_uni\\progetto_uni\\Audio1.mp3",this, modelLivello1);
+        SwingNode swingNode= new SwingNode();
+        JPanel gameView= new GameView(this.modelLivello1);
+        swingNode.setContent( gameView);
+        Group root3= new Group();
+        root3.getChildren().add(swingNode);
+        scene = new Scene(root3,1280,800);
         scene.setOnKeyPressed(keyboard::keyPressed);
         scene.setOnKeyReleased(keyboard::keyReleased);
+        mainTimer.schedule(task, 0, 4);
 
     }
 

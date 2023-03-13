@@ -19,13 +19,12 @@ public class GameView extends JPanel {
     public GameView( ModelLivello gameWorld) {
         this.gameWorld=gameWorld;
         this.player=gameWorld.player;
-        //this.setFocusable(true);
+
         
         this.setPreferredSize(new Dimension(1280, 800))  ;
         if( this.requestFocusInWindow())
             System.out.println("Focus ottenuto");
-        //this.keyBoard= new MyKeyboard(player);
-        //this.addKeyListener(keyBoard);
+
 
         Timer t = new Timer();
         TimerTask task = new TimerTask() {
