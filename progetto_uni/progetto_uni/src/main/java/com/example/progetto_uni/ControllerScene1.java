@@ -3,22 +3,15 @@ package com.example.progetto_uni;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.embed.swing.SwingNode;
-import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
-import javax.swing.*;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ResourceBundle;
-import java.util.Timer;
-import java.util.TimerTask;
 
+public class ControllerScene1 implements Runnable {
 
-public class ControllerScene1 implements Initializable {
-
-
+    private final int FPS_SET = 120;
+    private final int UPS_SET = 200;
     private Scene scene;
     private DoubleProperty cambioScena = new SimpleDoubleProperty(1);
     private boolean condizioneImmagine = true; //boolean che serve per l'animazione, se sto facendo uno spostamento diventa false
@@ -31,32 +24,8 @@ public class ControllerScene1 implements Initializable {
     private final Image imageBullet= new Image("DALL·E 2023-03-03 12.27.27 - 8 bit bullet like cuphead.png");
     public Keyboard keyboard;
     private ModelLivello modelLivello1;
-
-
-
-
-    Timer mainTimer;
-
-    TimerTask task = new TimerTask() {
-        public void run() {
-            directionCommands();
-            modelLivello1.player.underGravity();
-            modelLivello1.collisionDetection();
-            modelLivello1.moveBullets();
-            modelLivello1.player.cooldown();
-            modelLivello1.enemy.move();
-            modelLivello1.enemy.fire(modelLivello1.player.getPosX(), modelLivello1.player.getPosY());
-            modelLivello1.enemy.cooldown();
-            modelLivello1.bulletCollisionDetenction();
-
-
-
-
-
-
-        }
-    };
-
+    private Thread gameThread;
+    private GameView gameView;
 
 
 
@@ -64,7 +33,19 @@ public class ControllerScene1 implements Initializable {
     public ControllerScene1(ModelLivello model){
         this.modelLivello1=model;
         this.keyboard= new Keyboard(modelLivello1.player);
-        mainTimer= new Timer();
+
+        SwingNode swingNode= new SwingNode();
+        gameView= new GameView(this.modelLivello1);
+        swingNode.setContent( gameView);
+        Group root3= new Group();
+        root3.getChildren().add(swingNode);
+
+        scene = new Scene(root3,1280,800);
+        scene.setOnKeyPressed(keyboard::keyPressed);
+        scene.setOnKeyReleased(keyboard::keyReleased);
+
+
+        startGameLoop();
 
     }
 
@@ -99,18 +80,8 @@ public class ControllerScene1 implements Initializable {
     }*/
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-       // mainTimer.schedule(task, 0, 4);
-       // timerAnimations();
-
-
-
-    } //il metodo initialize si usa se fai l'implements di Initializable, parte solo la prima volta che viene caricata la scena ed è utile per settare alcuni thread
-
-
-    public void start() throws IOException {
+   /* public void start() throws IOException {
         //Servizio servizio = new Servizio();
         //scene = servizio.creaScena("Scene1.fxml","C:\\Users\\samue\\OneDrive\\Documents\\Prova\\progetto_uni\\progetto_uni\\video1.mp4","C:\\Users\\samue\\OneDrive\\Documents\\Prova\\progetto_uni\\progetto_uni\\Audio1.mp3",this, modelLivello1);
         SwingNode swingNode= new SwingNode();
@@ -123,10 +94,67 @@ public class ControllerScene1 implements Initializable {
         scene.setOnKeyReleased(keyboard::keyReleased);
         mainTimer.schedule(task, 0, 4);
 
+    }*/
+   private void startGameLoop() {
+       gameThread = new Thread(this::run);// vedere come si scrive correttamente la lambda function
+       gameThread.start();
+   }
+
+    public void run() {
+
+        double timePerFrame = 1000000000.0 / FPS_SET;
+        double timePerUpdate = 1000000000.0 / UPS_SET;
+
+        long previousTime = System.nanoTime();
+
+        int frames = 0;
+        int updates = 0;
+        long lastCheck = System.currentTimeMillis();
+
+        double deltaU = 0;
+        double deltaF = 0;
+
+        while (true) {
+            long currentTime = System.nanoTime();
+
+            deltaU += (currentTime - previousTime) / timePerUpdate;
+            deltaF += (currentTime - previousTime) / timePerFrame;
+            previousTime = currentTime;
+
+            if (deltaU >= 1) {
+                update();
+                updates++;
+                deltaU--;
+            }
+
+
+            if (System.currentTimeMillis() - lastCheck >= 1000) {
+                lastCheck = System.currentTimeMillis();
+                System.out.println("FPS: " + frames + " | UPS: " + updates);
+                System.out.println("check " );
+                frames = 0;
+                updates = 0;
+
+            }
+        }
+
     }
 
 
+ public void update(){
+     directionCommands();
+     modelLivello1.player.underGravity();
+     modelLivello1.collisionDetection();
+     modelLivello1.moveBullets();
+     modelLivello1.player.cooldown();
+     modelLivello1.enemy.move();
+     modelLivello1.enemy.fire(modelLivello1.player.getPosX(), modelLivello1.player.getPosY());
+     modelLivello1.enemy.cooldown();
+     modelLivello1.bulletCollisionDetenction();
+     gameView.colora();
+     System.out.println("uscito dal repaint");
 
+ }
 
 
 

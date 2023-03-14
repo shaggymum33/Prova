@@ -56,22 +56,18 @@ public class ModelLivello
     }
 
         public void moveBullets() {
-            /*for (Bullet b : bullets)
+            for (Bullet b : bullets)
                if(b.isAlive)
                 b.move();
-            //else bullets.remove(b);*/
-           for (int i =0; i<bullets.size(); i++){
-                if(bullets.get(i).isAlive)
-                   bullets.get(i).move();
-
-           }
-            for (int i =0; i<Ebullets.size(); i++){
-                if(Ebullets.get(i).isAlive)
-
-                    Ebullets.get(i).move();
+          for (Bullet b: Ebullets)
+              if (b.isAlive)
+                  b.move();
 
 
-            }
+
+
+
+
         }
 
 

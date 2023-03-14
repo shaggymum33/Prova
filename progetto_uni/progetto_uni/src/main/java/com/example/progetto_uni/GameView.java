@@ -3,8 +3,6 @@ package com.example.progetto_uni;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class GameView extends JPanel {
@@ -15,28 +13,17 @@ public class GameView extends JPanel {
 
     Player player;
      ModelLivello  gameWorld;
+     int count;
 
     public GameView( ModelLivello gameWorld) {
         this.gameWorld=gameWorld;
         this.player=gameWorld.player;
-
-        
-        this.setPreferredSize(new Dimension(1280, 800))  ;
-        if( this.requestFocusInWindow())
-            System.out.println("Focus ottenuto");
-
-
-        Timer t = new Timer();
-        TimerTask task = new TimerTask() {
-            public void run() {
-               repaint();
-
-
-            }
-        };
-        t.schedule(task, 10, 30);
+        this.setFocusable(true);
     }
 
+    public void colora(){
+        repaint();
+    }
     protected void paintComponent(Graphics g) {
 
         super.paintComponent(g);
@@ -79,7 +66,7 @@ public class GameView extends JPanel {
         g2.setColor(Color.red);
         g2.fillRect(player.getPosX(), player.getPosY(), (int) player.collider.getWidth(), (int)player.collider.getHeight());
 
-
+        System.out.println("il codice viene eseguito: "+count++);
 
         //player
         /*g2.scale(0.3, -0.3);

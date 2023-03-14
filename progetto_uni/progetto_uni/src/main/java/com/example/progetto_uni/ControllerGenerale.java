@@ -51,7 +51,8 @@ public class ControllerGenerale{
     }
     public void startScena1() throws IOException {
 
-        controller1.start();
+        //
+        // controller1.start();
         stage.setScene(controller1.getScene());
     }
 

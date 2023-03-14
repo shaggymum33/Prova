@@ -55,11 +55,9 @@ public class Enemy {
 
         if (this.collider.intersects(bullet.collider) && bullet.isAlive) {
             life=life-bullet.damage;
-
             bullet.isAlive=false;
 
         }
-
         if (life<0)
             isAlive=false;
     }
